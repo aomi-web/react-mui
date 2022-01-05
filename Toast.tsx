@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { Box, IconButton, Snackbar, SnackbarContent, Stack, Theme } from '@mui/material';
+import { IconButton, Snackbar, SnackbarContent, Stack } from '@mui/material';
 import { amber, green } from '@mui/material/colors';
 
-import { CheckCircle, Warning, Error, Info, Close } from '@mui/icons-material';
+import { CheckCircle, Close, Error, Info, Warning } from '@mui/icons-material';
 
 const variantIcon = {
   success: CheckCircle,
@@ -35,7 +35,7 @@ export class SnackbarContentWrapper extends React.Component<Props, any> {
 
     const messageWrapper = (
       <Stack alignItems="center" spacing={1}>
-        <Icon fontSize="md" opacity={0.9}/>
+        <Icon sx={{ fontSize: 20 }} opacity={0.9}/>
         {message}
       </Stack>
     );
@@ -45,7 +45,7 @@ export class SnackbarContentWrapper extends React.Component<Props, any> {
                   color="inherit"
                   onClick={onClose}
       >
-        <Close fontSize="md"/>
+        <Close sx={{ fontSize: 20 }}/>
       </IconButton>
     ];
 
