@@ -1,43 +1,22 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import classNames from 'classnames';
-import { IconButton, Snackbar, SnackbarContent, Theme, withStyles } from '@mui/material';
+import { Box, IconButton, Snackbar, SnackbarContent, Stack, Theme } from '@mui/material';
 import { amber, green } from '@mui/material/colors';
 
 import { CheckCircle, Warning, Error, Info, Close } from '@mui/icons-material';
-
-
-const styles = (theme: Theme) => ({
-  success: {
-    backgroundColor: green[600]
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark
-  },
-  info: {
-    backgroundColor: theme.palette.primary.dark
-  },
-  warning: {
-    backgroundColor: amber[700]
-  },
-  icon: {
-    fontSize: 20
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing(1)
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-});
 
 const variantIcon = {
   success: CheckCircle,
   warning: Warning,
   error: Error,
   info: Info
+};
+
+const bgColor = {
+  success: green[600],
+  error: 'error.dark',
+  info: 'primary,dark',
+  warning: amber[700]
 };
 
 export interface Props {
@@ -48,18 +27,17 @@ export interface Props {
   variant: 'success' | 'warning' | 'error' | 'info';
 }
 
-@(withStyles(styles) as any)
-export class SnackbarContentWrapper extends React.Component<Props> {
+export class SnackbarContentWrapper extends React.Component<Props, any> {
 
   render() {
-    const { classes, variant, className, message, onClose, ...other } = this.props;
+    const { classes, variant, message, onClose, ...other } = this.props;
     const Icon = variantIcon[variant];
 
     const messageWrapper = (
-      <span id="client-snackbar" className={classes.message}>
-        <Icon className={classNames(classes.icon, classes.iconVariant)}/>
+      <Stack alignItems="center" spacing={1}>
+        <Icon fontSize="md" opacity={0.9}/>
         {message}
-      </span>
+      </Stack>
     );
     const action = [
       <IconButton key="close"
@@ -67,15 +45,17 @@ export class SnackbarContentWrapper extends React.Component<Props> {
                   color="inherit"
                   onClick={onClose}
       >
-        <Close className={classes.icon}/>
+        <Close fontSize="md"/>
       </IconButton>
     ];
 
     return (
-      <SnackbarContent className={classNames(classes[variant], className)}
-                       aria-describedby="client-snackbar"
+      <SnackbarContent aria-describedby="client-snackbar"
                        message={messageWrapper}
                        action={action}
+                       sx={{
+                         backgroundColor: bgColor[variant]
+                       }}
                        {...other}
       />
     );
@@ -83,7 +63,7 @@ export class SnackbarContentWrapper extends React.Component<Props> {
 
 }
 
-export class Toast extends React.Component<any> {
+export class Toast extends React.Component<any, any> {
 
   state = {
     open: true
