@@ -1,67 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { IconButton, Snackbar, SnackbarContent, Stack } from '@mui/material';
-import { amber, green } from '@mui/material/colors';
-
-import { CheckCircle, Close, Error, Info, Warning } from '@mui/icons-material';
-
-const variantIcon = {
-  success: CheckCircle,
-  warning: Warning,
-  error: Error,
-  info: Info
-};
-
-const bgColor = {
-  success: green[600],
-  error: 'error.dark',
-  info: 'primary,dark',
-  warning: amber[700]
-};
-
-export interface Props {
-  classes?: any;
-  className?: string;
-  message?: React.ReactNode;
-  onClose: any;
-  variant: 'success' | 'warning' | 'error' | 'info';
-}
-
-export class SnackbarContentWrapper extends React.Component<Props, any> {
-
-  render() {
-    const { classes, variant, message, onClose, ...other } = this.props;
-    const Icon = variantIcon[variant];
-
-    const messageWrapper = (
-      <Stack alignItems="center" spacing={1}>
-        <Icon sx={{ fontSize: 20 }} opacity={0.9}/>
-        {message}
-      </Stack>
-    );
-    const action = [
-      <IconButton key="close"
-                  aria-label="Close"
-                  color="inherit"
-                  onClick={onClose}
-      >
-        <Close sx={{ fontSize: 20 }}/>
-      </IconButton>
-    ];
-
-    return (
-      <SnackbarContent aria-describedby="client-snackbar"
-                       message={messageWrapper}
-                       action={action}
-                       sx={{
-                         backgroundColor: bgColor[variant]
-                       }}
-                       {...other}
-      />
-    );
-  }
-
-}
+import { Alert, Snackbar } from '@mui/material';
 
 export class Toast extends React.Component<any, any> {
 
@@ -89,10 +28,7 @@ export class Toast extends React.Component<any, any> {
         autoHideDuration={3500}
         onClose={this.handleClose}
       >
-        <SnackbarContentWrapper onClose={this.handleClose}
-                                message={message}
-                                variant={variant}
-        />
+        <Alert severity={variant} onClose={this.handleClose as any} sx={{ width: '100%' }}>{message}</Alert>
       </Snackbar>
     );
   }
